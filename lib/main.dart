@@ -28,7 +28,7 @@ class MoneyTrackerApp extends StatelessWidget {
                 seedColor: provider.cardColor ?? Colors.teal,
                 brightness: Brightness.light,
               ),
-              cardTheme: CardTheme(
+              cardTheme: CardThemeData(
                 clipBehavior: Clip.antiAlias, // Smooth card edges
                 color: provider.cardColor?.withOpacity(0.1), // Subtle card background
                 shadowColor: provider.cardColor?.withOpacity(0.5), // Dynamic shadow
@@ -47,7 +47,7 @@ class MoneyTrackerApp extends StatelessWidget {
                 seedColor: provider.cardColor ?? Colors.teal,
                 brightness: Brightness.dark,
               ),
-              cardTheme: CardTheme(
+              cardTheme: CardThemeData(
                 clipBehavior: Clip.antiAlias,
                 color: provider.cardColor?.withOpacity(0.2),
                 shadowColor: provider.cardColor?.withOpacity(0.3),
