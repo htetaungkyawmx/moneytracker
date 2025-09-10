@@ -1,3 +1,4 @@
+// lib/data/models/category.dart
 import 'package:flutter/material.dart';
 
 class Category {

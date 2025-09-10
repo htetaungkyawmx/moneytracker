@@ -1,3 +1,4 @@
+// lib/widgets/charts/pie_chart.dart
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,17 @@ class PieChartWidget extends StatelessWidget {
         color: Colors.primaries[data.keys.toList().indexOf(entry.key) % Colors.primaries.length],
         value: entry.value,
         title: '${entry.key}\n\$${entry.value.toStringAsFixed(0)}',
-        radius: 50,
-        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+        radius: 80, // Increased for better UX
+        titleStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
       );
     }).toList();
 
     return PieChart(
       PieChartData(
         sections: sections,
-        centerSpaceRadius: 40,
+        centerSpaceRadius: 50,
         sectionsSpace: 2,
+        borderData: FlBorderData(show: false),
       ),
     );
   }

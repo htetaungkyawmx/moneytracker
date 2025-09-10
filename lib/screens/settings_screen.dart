@@ -1,3 +1,4 @@
+// lib/screens/settings_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
@@ -14,6 +15,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Color _selectedColor = Colors.teal;
 
   @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<TransactionProvider>(context, listen: false);
+    _budgetController.text = provider.monthlyBudget.toStringAsFixed(2);
+    _selectedColor = provider.cardColor ?? Colors.teal;
+  }
+
+  @override
   void dispose() {
     _budgetController.dispose();
     super.dispose();
@@ -22,27 +31,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransactionProvider>(context);
-    _budgetController.text = provider.monthlyBudget.toStringAsFixed(2);
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(size.width * 0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Monthly Budget', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Monthly Budget', style: TextStyle(fontSize: size.width * 0.045, fontWeight: FontWeight.bold)),
             TextField(
               controller: _budgetController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Budget Amount'),
+              decoration: InputDecoration(
+                labelText: 'Budget Amount',
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
               onSubmitted: (value) {
                 final budget = double.tryParse(value) ?? provider.monthlyBudget;
                 provider.setMonthlyBudget(budget);
               },
             ),
-            const SizedBox(height: 20),
-            const Text('Card Color Theme', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: size.height * 0.03),
+            Text('Theme Color', style: TextStyle(fontSize: size.width * 0.045, fontWeight: FontWeight.bold)),
             Wrap(
               spacing: 10,
               children: [

@@ -1,3 +1,4 @@
+// lib/data/repositories/category_repository.dart
 import '../local_database/database_helper.dart';
 import '../models/category.dart';
 

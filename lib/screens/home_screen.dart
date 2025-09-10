@@ -1,3 +1,4 @@
+// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransactionProvider>(context);
+    final size = MediaQuery.of(context).size; // For responsiveness
     return Scaffold(
       appBar: AppBar(
         title: const Text('Money Tracker'),
@@ -49,9 +51,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.teal, Colors.tealAccent],
+              colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -62,13 +64,13 @@ class HomeScreen extends StatelessWidget {
         children: [
           BalanceCard(),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(size.width * 0.04), // Responsive padding
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Recent Transactions',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: size.width * 0.045, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
                   onPressed: () {

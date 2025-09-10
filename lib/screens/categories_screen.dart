@@ -1,3 +1,4 @@
+// lib/screens/categories_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/category_provider.dart';
@@ -16,26 +17,80 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   IconData _icon = Icons.category;
   Color _color = Colors.grey;
 
+  final List<IconData> _icons = [
+    Icons.fastfood, Icons.directions_car, Icons.movie, Icons.attach_money,
+    Icons.home, Icons.shopping_cart, Icons.flight, Icons.school,
+  ];
+
+  final List<Color> _colors = [
+    Colors.red, Colors.blue, Colors.purple, Colors.green,
+    Colors.orange, Colors.teal, Colors.pink, Colors.indigo,
+  ];
+
   void _showAddDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Add Category'),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Name'),
-                  onSaved: (value) => _name = value!,
-                  validator: (value) => value!.isEmpty ? 'Enter name' : null,
+          content: StatefulBuilder(
+            builder: (context, setDialogState) {
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(labelText: 'Name'),
+                        onSaved: (value) => _name = value!,
+                        validator: (value) => value!.isEmpty ? 'Enter name' : null,
+                      ),
+                      const SizedBox(height: 10),
+                      const Text('Select Icon'),
+                      Wrap(
+                        spacing: 10,
+                        children: _icons.map((icon) {
+                          return GestureDetector(
+                            onTap: () => setDialogState(() => _icon = icon),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _icon == icon ? Theme.of(context).colorScheme.primary.withOpacity(0.3) : null,
+                              ),
+                              child: Icon(icon),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text('Select Color'),
+                      Wrap(
+                        spacing: 10,
+                        children: _colors.map((color) {
+                          return GestureDetector(
+                            onTap: () => setDialogState(() => _color = color),
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: color,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: _color == color ? Colors.black : Colors.transparent,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
                 ),
-                // For simplicity, icon and color selection can be expanded
-                // Here, using defaults
-              ],
-            ),
+              );
+            },
           ),
           actions: [
             TextButton(
@@ -58,18 +113,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CategoryProvider>(context);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: const Text('Categories')),
       body: ListView.builder(
         itemCount: provider.categories.length,
         itemBuilder: (context, index) {
           final cat = provider.categories[index];
-          return ListTile(
-            leading: Icon(cat.icon, color: cat.color),
-            title: Text(cat.name),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => provider.deleteCategory(cat.id!),
+          return Card(
+            margin: EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: size.height * 0.01),
+            child: ListTile(
+              leading: Icon(cat.icon, color: cat.color),
+              title: Text(cat.name),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => provider.deleteCategory(cat.id!),
+              ),
             ),
           );
         },

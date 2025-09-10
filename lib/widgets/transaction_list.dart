@@ -1,6 +1,7 @@
+// lib/widgets/transaction_list.dart
 import 'package:flutter/material.dart';
-import 'package:money_tracker_app/data/models/category.dart';
 import 'package:provider/provider.dart';
+import '../data/models/category.dart';
 import '../providers/transaction_provider.dart';
 import '../providers/category_provider.dart';
 import '../data/models/transaction.dart';
@@ -11,6 +12,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final transactions = Provider.of<TransactionProvider>(context).transactions;
     final categories = Provider.of<CategoryProvider>(context).categories;
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       itemCount: transactions.length,
       itemBuilder: (context, index) {
@@ -20,20 +22,21 @@ class TransactionList extends StatelessWidget {
           orElse: () => Category(name: 'Unknown', icon: Icons.help, color: Colors.grey),
         );
         return Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          margin: EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: size.height * 0.005),
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: cat.color,
-              child: Icon(cat.icon, color: Colors.white),
+              backgroundColor: cat.color.withOpacity(0.2),
+              child: Icon(cat.icon, color: cat.color),
             ),
             title: Text(tx.description),
             subtitle: Text(formatDate(tx.date)),
             trailing: Text(
               '${tx.isExpense ? '-' : '+'}\$${tx.amount.toStringAsFixed(2)}',
-              style: TextStyle(color: tx.isExpense ? Colors.red : Colors.green),
+              style: TextStyle(color: tx.isExpense ? Colors.red : Colors.green, fontSize: size.width * 0.04),
             ),
             onLongPress: () {
-              // Edit or delete options
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(

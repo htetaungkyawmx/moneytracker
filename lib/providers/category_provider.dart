@@ -1,3 +1,4 @@
+// lib/providers/category_provider.dart
 import 'package:flutter/material.dart';
 import '../data/models/category.dart';
 import '../data/repositories/category_repository.dart';

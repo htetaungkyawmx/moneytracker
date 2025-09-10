@@ -1,3 +1,4 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/transaction_provider.dart';
@@ -28,11 +29,8 @@ class MoneyTrackerApp extends StatelessWidget {
                 seedColor: provider.cardColor ?? Colors.teal,
                 brightness: Brightness.light,
               ),
-              cardTheme: CardThemeData(
-                clipBehavior: Clip.antiAlias, // Smooth card edges
-                color: provider.cardColor?.withOpacity(0.1), // Subtle card background
-                shadowColor: provider.cardColor?.withOpacity(0.5), // Dynamic shadow
-                surfaceTintColor: provider.cardColor, // Material 3 tint
+              cardTheme: CardThemeData( // Use CardThemeData instead of CardTheme
+                clipBehavior: Clip.antiAlias,
                 elevation: 4,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -47,11 +45,8 @@ class MoneyTrackerApp extends StatelessWidget {
                 seedColor: provider.cardColor ?? Colors.teal,
                 brightness: Brightness.dark,
               ),
-              cardTheme: CardThemeData(
+              cardTheme: CardThemeData( // Use CardThemeData instead of CardTheme
                 clipBehavior: Clip.antiAlias,
-                color: provider.cardColor?.withOpacity(0.2),
-                shadowColor: provider.cardColor?.withOpacity(0.3),
-                surfaceTintColor: provider.cardColor,
                 elevation: 4,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),

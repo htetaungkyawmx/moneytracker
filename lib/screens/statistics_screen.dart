@@ -1,3 +1,4 @@
+// lib/screens/statistics_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
@@ -13,18 +14,18 @@ class StatisticsScreen extends StatelessWidget {
     for (var tx in provider.transactions.where((t) => t.isExpense)) {
       expensesByCategory[tx.category] = (expensesByCategory[tx.category] ?? 0) + tx.amount;
     }
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: const Text('Statistics')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(size.width * 0.04),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Expenses by Category',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: size.width * 0.05, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: size.height * 0.03),
             Expanded(
               child: PieChartWidget(data: expensesByCategory),
             ),

@@ -1,3 +1,4 @@
+// lib/data/models/transaction.dart
 class Transaction {
   final int? id;
   final double amount;
